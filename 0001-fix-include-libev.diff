@@ -1,0 +1,11 @@
+--- i3lock-2.10/Makefile~	2018-05-02 14:39:56.000388977 -0700
++++ i3lock-2.10/Makefile	2018-05-02 14:39:17.232386360 -0700
+@@ -15,7 +15,7 @@
+ CFLAGS += -pipe
+ CFLAGS += -Wall
+ CPPFLAGS += -D_GNU_SOURCE
+-CFLAGS += $(shell $(PKG_CONFIG) --cflags cairo xcb-xinerama xcb-randr xcb-atom xcb-image xcb-xkb xkbcommon xkbcommon-x11)
++CFLAGS += $(shell $(PKG_CONFIG) --cflags cairo xcb-xinerama xcb-randr xcb-atom xcb-image xcb-xkb xkbcommon xkbcommon-x11) -I/usr/include/libev
+ LIBS += $(shell $(PKG_CONFIG) --libs cairo xcb-xinerama xcb-randr xcb-atom xcb-image xcb-xkb xkbcommon xkbcommon-x11)
+ LIBS += -lev
+ LIBS += -lm

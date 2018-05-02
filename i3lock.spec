@@ -4,7 +4,7 @@
 #
 Name     : i3lock
 Version  : 2.10
-Release  : 1
+Release  : 2
 URL      : https://i3wm.org/i3lock/i3lock-2.10.tar.bz2
 Source0  : https://i3wm.org/i3lock/i3lock-2.10.tar.bz2
 Summary  : No detailed summary available
@@ -21,6 +21,7 @@ BuildRequires : pkgconfig(xcb-xinerama)
 BuildRequires : pkgconfig(xcb-xkb)
 BuildRequires : pkgconfig(xkbcommon)
 BuildRequires : pkgconfig(xkbcommon-x11)
+Patch1: 0001-fix-include-libev.diff
 
 %description
 i3lock - improved screen locker
@@ -39,17 +40,18 @@ bin components for the i3lock package.
 
 %prep
 %setup -q -n i3lock-2.10
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1525284743
+export SOURCE_DATE_EPOCH=1525297307
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1525284743
+export SOURCE_DATE_EPOCH=1525297307
 rm -rf %{buildroot}
 %make_install
 
