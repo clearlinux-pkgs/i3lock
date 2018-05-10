@@ -4,7 +4,7 @@
 #
 Name     : i3lock
 Version  : 2.10
-Release  : 2
+Release  : 3
 URL      : https://i3wm.org/i3lock/i3lock-2.10.tar.bz2
 Source0  : https://i3wm.org/i3lock/i3lock-2.10.tar.bz2
 Summary  : No detailed summary available
