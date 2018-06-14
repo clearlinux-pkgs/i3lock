@@ -1,6 +1,17 @@
---- i3lock-2.10/Makefile~	2018-05-02 14:39:56.000388977 -0700
-+++ i3lock-2.10/Makefile	2018-05-02 14:39:17.232386360 -0700
-@@ -15,7 +15,7 @@
+From 1858501b6aef020b6fb17a50f295138783383b93 Mon Sep 17 00:00:00 2001
+From: Auke Kok <auke-jan.h.kok@intel.com>
+Date: Wed, 2 May 2018 14:41:47 -0700
+Subject: [PATCH 1/2] fix include libev
+
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index d1ce777..ec6f467 100644
+--- a/Makefile
++++ b/Makefile
+@@ -15,7 +15,7 @@ CFLAGS += -std=c99
  CFLAGS += -pipe
  CFLAGS += -Wall
  CPPFLAGS += -D_GNU_SOURCE
@@ -9,3 +20,6 @@
  LIBS += $(shell $(PKG_CONFIG) --libs cairo xcb-xinerama xcb-randr xcb-atom xcb-image xcb-xkb xkbcommon xkbcommon-x11)
  LIBS += -lev
  LIBS += -lm
+-- 
+2.17.1
+
