@@ -6,7 +6,7 @@
 #
 Name     : i3lock
 Version  : 2.10
-Release  : 4
+Release  : 5
 URL      : https://i3wm.org/i3lock/i3lock-2.10.tar.bz2
 Source0  : https://i3wm.org/i3lock/i3lock-2.10.tar.bz2
 Source99 : https://i3wm.org/i3lock/i3lock-2.10.tar.bz2.asc
@@ -14,7 +14,6 @@ Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
 Requires: i3lock-bin
-Requires: i3lock-license
 Requires: i3lock-data
 BuildRequires : Linux-PAM-dev
 BuildRequires : libev-dev
@@ -26,7 +25,8 @@ BuildRequires : pkgconfig(xcb-xinerama)
 BuildRequires : pkgconfig(xcb-xkb)
 BuildRequires : pkgconfig(xkbcommon)
 BuildRequires : pkgconfig(xkbcommon-x11)
-Patch1: 0001-fix-include-libev.diff
+Patch1: 0001-fix-include-libev.patch
+Patch2: 0002-Use-gdm-password-derived-PAM-config-instead.patch
 
 %description
 i3lock - improved screen locker
@@ -39,7 +39,6 @@ to your screen by entering your password.
 Summary: bin components for the i3lock package.
 Group: Binaries
 Requires: i3lock-data
-Requires: i3lock-license
 
 %description bin
 bin components for the i3lock package.
@@ -53,31 +52,22 @@ Group: Data
 data components for the i3lock package.
 
 
-%package license
-Summary: license components for the i3lock package.
-Group: Default
-
-%description license
-license components for the i3lock package.
-
-
 %prep
 %setup -q -n i3lock-2.10
 %patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1528943843
+export SOURCE_DATE_EPOCH=1529002574
 make  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1528943843
+export SOURCE_DATE_EPOCH=1529002574
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/i3lock
-cp LICENSE %{buildroot}/usr/share/doc/i3lock/LICENSE
 %make_install
 ## make_install_append content
 mkdir -p %{buildroot}/usr/share/pam.d
@@ -94,7 +84,3 @@ mv %{buildroot}/etc/pam.d/*  %{buildroot}/usr/share/pam.d
 %files data
 %defattr(-,root,root,-)
 /usr/share/pam.d/i3lock
-
-%files license
-%defattr(-,root,root,-)
-/usr/share/doc/i3lock/LICENSE
