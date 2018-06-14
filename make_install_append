@@ -1,0 +1,2 @@
+mkdir -p %{buildroot}/usr/share/pam.d
+mv %{buildroot}/etc/pam.d/*  %{buildroot}/usr/share/pam.d
