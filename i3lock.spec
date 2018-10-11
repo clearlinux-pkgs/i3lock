@@ -5,24 +5,37 @@
 # Source0 file verified with key 0x4E7160ED4AC8EE1D (michael@stapelberg.de)
 #
 Name     : i3lock
-Version  : 2.10
-Release  : 5
-URL      : https://i3wm.org/i3lock/i3lock-2.10.tar.bz2
-Source0  : https://i3wm.org/i3lock/i3lock-2.10.tar.bz2
-Source99 : https://i3wm.org/i3lock/i3lock-2.10.tar.bz2.asc
+Version  : 2.11
+Release  : 6
+URL      : https://i3wm.org/i3lock/i3lock-2.11.tar.bz2
+Source0  : https://i3wm.org/i3lock/i3lock-2.11.tar.bz2
+Source99 : https://i3wm.org/i3lock/i3lock-2.11.tar.bz2.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
-Requires: i3lock-bin
-Requires: i3lock-data
+Requires: i3lock-bin = %{version}-%{release}
+Requires: i3lock-data = %{version}-%{release}
+Requires: i3lock-license = %{version}-%{release}
+Requires: i3lock-man = %{version}-%{release}
 BuildRequires : Linux-PAM-dev
+BuildRequires : automake
+BuildRequires : automake-dev
+BuildRequires : gettext-bin
 BuildRequires : libev-dev
+BuildRequires : libtool
+BuildRequires : libtool-dev
+BuildRequires : m4
+BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(cairo)
+BuildRequires : pkgconfig(xcb)
 BuildRequires : pkgconfig(xcb-atom)
+BuildRequires : pkgconfig(xcb-event)
 BuildRequires : pkgconfig(xcb-image)
 BuildRequires : pkgconfig(xcb-randr)
+BuildRequires : pkgconfig(xcb-util)
 BuildRequires : pkgconfig(xcb-xinerama)
 BuildRequires : pkgconfig(xcb-xkb)
+BuildRequires : pkgconfig(xcb-xrm)
 BuildRequires : pkgconfig(xkbcommon)
 BuildRequires : pkgconfig(xkbcommon-x11)
 Patch1: 0001-fix-include-libev.patch
@@ -38,7 +51,9 @@ to your screen by entering your password.
 %package bin
 Summary: bin components for the i3lock package.
 Group: Binaries
-Requires: i3lock-data
+Requires: i3lock-data = %{version}-%{release}
+Requires: i3lock-license = %{version}-%{release}
+Requires: i3lock-man = %{version}-%{release}
 
 %description bin
 bin components for the i3lock package.
@@ -52,8 +67,24 @@ Group: Data
 data components for the i3lock package.
 
 
+%package license
+Summary: license components for the i3lock package.
+Group: Default
+
+%description license
+license components for the i3lock package.
+
+
+%package man
+Summary: man components for the i3lock package.
+Group: Default
+
+%description man
+man components for the i3lock package.
+
+
 %prep
-%setup -q -n i3lock-2.10
+%setup -q -n i3lock-2.11
 %patch1 -p1
 %patch2 -p1
 
@@ -62,17 +93,27 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1529002574
+export SOURCE_DATE_EPOCH=1539218498
+%reconfigure --disable-static
 make  %{?_smp_mflags}
 
+%check
+export LANG=C
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+make VERBOSE=1 V=1 %{?_smp_mflags} check
+
 %install
-export SOURCE_DATE_EPOCH=1529002574
+export SOURCE_DATE_EPOCH=1539218498
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/i3lock
+cp LICENSE %{buildroot}/usr/share/package-licenses/i3lock/LICENSE
 %make_install
-## make_install_append content
+## install_append content
 mkdir -p %{buildroot}/usr/share/pam.d
 mv %{buildroot}/etc/pam.d/*  %{buildroot}/usr/share/pam.d
-## make_install_append end
+## install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -84,3 +125,11 @@ mv %{buildroot}/etc/pam.d/*  %{buildroot}/usr/share/pam.d
 %files data
 %defattr(-,root,root,-)
 /usr/share/pam.d/i3lock
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/i3lock/LICENSE
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/i3lock.1

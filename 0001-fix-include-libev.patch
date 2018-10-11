@@ -1,25 +1,24 @@
-From 1858501b6aef020b6fb17a50f295138783383b93 Mon Sep 17 00:00:00 2001
+From afcb2f81a0b928244b9ea9cfc92143018bd56226 Mon Sep 17 00:00:00 2001
 From: Auke Kok <auke-jan.h.kok@intel.com>
 Date: Wed, 2 May 2018 14:41:47 -0700
 Subject: [PATCH 1/2] fix include libev
 
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Makefile.am | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index d1ce777..ec6f467 100644
---- a/Makefile
-+++ b/Makefile
-@@ -15,7 +15,7 @@ CFLAGS += -std=c99
- CFLAGS += -pipe
- CFLAGS += -Wall
- CPPFLAGS += -D_GNU_SOURCE
--CFLAGS += $(shell $(PKG_CONFIG) --cflags cairo xcb-xinerama xcb-randr xcb-atom xcb-image xcb-xkb xkbcommon xkbcommon-x11)
-+CFLAGS += $(shell $(PKG_CONFIG) --cflags cairo xcb-xinerama xcb-randr xcb-atom xcb-image xcb-xkb xkbcommon xkbcommon-x11) -I/usr/include/libev
- LIBS += $(shell $(PKG_CONFIG) --libs cairo xcb-xinerama xcb-randr xcb-atom xcb-image xcb-xkb xkbcommon xkbcommon-x11)
- LIBS += -lev
- LIBS += -lm
+diff --git a/Makefile.am b/Makefile.am
+index 3c0d16a..dc5a19b 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -55,3 +55,6 @@ EXTRA_DIST = \
+ 	CHANGELOG \
+ 	LICENSE \
+ 	README.md
++
++i3lock_CFLAGS += \
++	-I/usr/include/libev
 -- 
-2.17.1
+2.19.1
 
