@@ -1,4 +1,4 @@
-From afcb2f81a0b928244b9ea9cfc92143018bd56226 Mon Sep 17 00:00:00 2001
+From eac1a4bbdc1cafbab4ec9b00ae60a3b4071cc1d0 Mon Sep 17 00:00:00 2001
 From: Auke Kok <auke-jan.h.kok@intel.com>
 Date: Wed, 2 May 2018 14:41:47 -0700
 Subject: [PATCH 1/2] fix include libev
@@ -9,16 +9,19 @@ Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/Makefile.am b/Makefile.am
-index 3c0d16a..dc5a19b 100644
+index 5847975..1aa0444 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -55,3 +55,6 @@ EXTRA_DIST = \
- 	CHANGELOG \
- 	LICENSE \
- 	README.md
-+
+@@ -50,6 +50,9 @@ i3lock_SOURCES = \
+ 	xcb.c \
+ 	xcb.h
+ 
 +i3lock_CFLAGS += \
 +	-I/usr/include/libev
++
+ EXTRA_DIST = \
+ 	$(pamd_files) \
+ 	CHANGELOG \
 -- 
 2.19.1
 

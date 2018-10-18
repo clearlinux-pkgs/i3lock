@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x4E7160ED4AC8EE1D (michael@stapelberg.de)
 #
 Name     : i3lock
-Version  : 2.11
-Release  : 6
-URL      : https://i3wm.org/i3lock/i3lock-2.11.tar.bz2
-Source0  : https://i3wm.org/i3lock/i3lock-2.11.tar.bz2
-Source99 : https://i3wm.org/i3lock/i3lock-2.11.tar.bz2.asc
+Version  : 2.11.1
+Release  : 7
+URL      : https://i3wm.org/i3lock/i3lock-2.11.1.tar.bz2
+Source0  : https://i3wm.org/i3lock/i3lock-2.11.1.tar.bz2
+Source99 : https://i3wm.org/i3lock/i3lock-2.11.1.tar.bz2.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -84,7 +84,7 @@ man components for the i3lock package.
 
 
 %prep
-%setup -q -n i3lock-2.11
+%setup -q -n i3lock-2.11.1
 %patch1 -p1
 %patch2 -p1
 
@@ -93,7 +93,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1539218498
+export SOURCE_DATE_EPOCH=1539899143
 %reconfigure --disable-static
 make  %{?_smp_mflags}
 
@@ -105,7 +105,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1539218498
+export SOURCE_DATE_EPOCH=1539899143
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/i3lock
 cp LICENSE %{buildroot}/usr/share/package-licenses/i3lock/LICENSE
