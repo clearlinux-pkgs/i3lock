@@ -5,11 +5,11 @@
 # Source0 file verified with key 0x4E7160ED4AC8EE1D (michael@stapelberg.de)
 #
 Name     : i3lock
-Version  : 2.11.1
-Release  : 7
-URL      : https://i3wm.org/i3lock/i3lock-2.11.1.tar.bz2
-Source0  : https://i3wm.org/i3lock/i3lock-2.11.1.tar.bz2
-Source99 : https://i3wm.org/i3lock/i3lock-2.11.1.tar.bz2.asc
+Version  : 2.12
+Release  : 8
+URL      : https://i3wm.org/i3lock/i3lock-2.12.tar.bz2
+Source0  : https://i3wm.org/i3lock/i3lock-2.12.tar.bz2
+Source1 : https://i3wm.org/i3lock/i3lock-2.12.tar.bz2.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -44,16 +44,15 @@ Patch2: 0002-Use-gdm-password-derived-PAM-config-instead.patch
 %description
 i3lock - improved screen locker
 ===============================
-i3lock is a simple screen locker like slock. After starting it, you will
-see a white screen (you can configure the color/an image). You can return
-to your screen by entering your password.
+[i3lock](https://i3wm.org/i3lock/)> is a simple screen locker like slock.
+After starting it, you will see a white screen (you can configure the
+color/an image). You can return to your screen by entering your password.
 
 %package bin
 Summary: bin components for the i3lock package.
 Group: Binaries
 Requires: i3lock-data = %{version}-%{release}
 Requires: i3lock-license = %{version}-%{release}
-Requires: i3lock-man = %{version}-%{release}
 
 %description bin
 bin components for the i3lock package.
@@ -84,7 +83,7 @@ man components for the i3lock package.
 
 
 %prep
-%setup -q -n i3lock-2.11.1
+%setup -q -n i3lock-2.12
 %patch1 -p1
 %patch2 -p1
 
@@ -92,20 +91,25 @@ man components for the i3lock package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1539899143
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1564176413
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$CFLAGS -fno-lto "
+export FFLAGS="$CFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %reconfigure --disable-static
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1539899143
+export SOURCE_DATE_EPOCH=1564176413
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/i3lock
 cp LICENSE %{buildroot}/usr/share/package-licenses/i3lock/LICENSE
