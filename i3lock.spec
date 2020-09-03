@@ -6,10 +6,10 @@
 #
 Name     : i3lock
 Version  : 2.12
-Release  : 8
+Release  : 9
 URL      : https://i3wm.org/i3lock/i3lock-2.12.tar.bz2
 Source0  : https://i3wm.org/i3lock/i3lock-2.12.tar.bz2
-Source1 : https://i3wm.org/i3lock/i3lock-2.12.tar.bz2.asc
+Source1  : https://i3wm.org/i3lock/i3lock-2.12.tar.bz2.asc
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-3-Clause
@@ -40,6 +40,7 @@ BuildRequires : pkgconfig(xkbcommon)
 BuildRequires : pkgconfig(xkbcommon-x11)
 Patch1: 0001-fix-include-libev.patch
 Patch2: 0002-Use-gdm-password-derived-PAM-config-instead.patch
+Patch3: 0003-unlock_indicator.c-fix-build-failure-against-gcc-10.patch
 
 %description
 i3lock - improved screen locker
@@ -84,19 +85,21 @@ man components for the i3lock package.
 
 %prep
 %setup -q -n i3lock-2.12
+cd %{_builddir}/i3lock-2.12
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1564176413
+export SOURCE_DATE_EPOCH=1599111475
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 %reconfigure --disable-static
 make  %{?_smp_mflags}
@@ -106,13 +109,13 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1564176413
+export SOURCE_DATE_EPOCH=1599111475
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/i3lock
-cp LICENSE %{buildroot}/usr/share/package-licenses/i3lock/LICENSE
+cp %{_builddir}/i3lock-2.12/LICENSE %{buildroot}/usr/share/package-licenses/i3lock/5cd63d8ad7ba3d702c355805f41914b9a5dd640f
 %make_install
 ## install_append content
 mkdir -p %{buildroot}/usr/share/pam.d
@@ -132,7 +135,7 @@ mv %{buildroot}/etc/pam.d/*  %{buildroot}/usr/share/pam.d
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/i3lock/LICENSE
+/usr/share/package-licenses/i3lock/5cd63d8ad7ba3d702c355805f41914b9a5dd640f
 
 %files man
 %defattr(0644,root,root,0755)
