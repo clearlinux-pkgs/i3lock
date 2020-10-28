@@ -1,3 +1,2 @@
 0001-fix-include-libev.patch
 0002-Use-gdm-password-derived-PAM-config-instead.patch
-0003-unlock_indicator.c-fix-build-failure-against-gcc-10.patch
